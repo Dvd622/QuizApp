@@ -1,12 +1,17 @@
 package com.example.quizapplication;
 
+// TO DO: startActivityForResult() - save name at end of quiz
+// TO DO: Finish button
+// TO DO: add actual questions
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,8 +30,17 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Intent intentMainActivity = new Intent(this, ActivityQuestions.class);
                 intentMainActivity.putExtra("name", nameEditText.getText().toString());
-                startActivity(intentMainActivity);
+                startActivityForResult(intentMainActivity, 1);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_CANCELED && requestCode==1) {
+            finish();
+            System.exit(0);
+        }
     }
 }

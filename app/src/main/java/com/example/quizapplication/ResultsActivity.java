@@ -28,9 +28,15 @@ public class ResultsActivity extends AppCompatActivity {
         scoreTextView.setText(score);
 
         newQuizButton.setOnClickListener(view -> {
-            Intent intentResultsActivity = new Intent(this, MainActivity.class);
-            intentResultsActivity.putExtra("name", name);
-            startActivity(intentResultsActivity);
+            Intent intentResultsActivity = new Intent();
+            setResult(RESULT_OK, intentResultsActivity);
+            finish();
+        });
+
+        finishButton.setOnClickListener(view -> {
+            Intent intentResultsActivity = new Intent();
+            setResult(RESULT_CANCELED, intentResultsActivity);
+            finish();
         });
     }
 }

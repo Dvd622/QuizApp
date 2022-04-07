@@ -1,5 +1,6 @@
 package com.example.quizapplication;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -36,13 +37,13 @@ public class ActivityQuestions extends AppCompatActivity {
         Intent intentReceive = getIntent();
         String name = intentReceive.getStringExtra("name");
 
-        // question{quizTitle, quizDetails, option1, option2, option3, correct answer}
-        String[] question1 = {"Test1", "This is a test1", "answer1 test", "test2", "testing 3", "test2"};
-        String[] question2 = {"Testing Title 2","Q Details 2", "t1", "t two", "the answer", "the answer"};
-        String[] question3 = {"Testing Title three","Q Details three", "t three", "t too", "not the answer", "t three"};
-        String[] question4 = {};
-        String[] question5 = {};
-        String[][] quiz = {question1, question2, question3};
+        // question{questionTitle, questionDetails, option1, option2, option3, correct answer}
+        String[] question1 = {"Question 1", "What object is used to start and give data to new activities?", "TextView", "Intent", "Activity", "Intent"};
+        String[] question2 = {"Question 2", "Of the following, which user interface element is commonly used to perform an action when clicked?", "ImageView", "EditText", "Button", "Button"};
+        String[] question3 = {"Question 3", "What can a RecyclerView be used for?", "Recycling bin tool", "Efficiently display large sets of data", "Creates new objects out of old ones", "Efficiently display large sets of data"};
+        String[] question4 = {"Question 4", "What function must be called from one activity to send the activity result back to another activity?", "finish()", "System.exit()", "getIntent()", "finish()"};
+        String[] question5 = {"Question 5", "What is used to store and retrieve data for an application from the internal storage of the device?", "setOnClickListener", "findViewById", "SharedPreferences", "SharedPreferences"};
+        String[][] quiz = {question1, question2, question3, question4, question5};
 
         questionTitleTextView.setText(quiz[0][0]);
         questionDetailTextView.setText(quiz[0][1]);
@@ -89,10 +90,10 @@ public class ActivityQuestions extends AppCompatActivity {
                     intentActivityQuestions.putExtra("name", name);
                     String finalScore = score + "/" + quiz.length;
                     intentActivityQuestions.putExtra("score", finalScore);
-                    startActivity(intentActivityQuestions);
+                    startActivityForResult(intentActivityQuestions, 1);
                 } else { // else not end of quiz, update all text to next question
                     quizProgressBar.setProgress(questionNumber*100/quiz.length);
-                    progressString = questionNumber.toString() + quiz.length;
+                    progressString = questionNumber.toString() + "/" + quiz.length;
                     progressTextView.setText(progressString);
                     questionTitleTextView.setText(quiz[questionNumber][0]);
                     questionDetailTextView.setText(quiz[questionNumber][1]);
@@ -131,5 +132,20 @@ public class ActivityQuestions extends AppCompatActivity {
                 Toast.makeText(this, "Please select an answer", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_CANCELED && requestCode==1) {
+            Intent intentActivityQuestions = new Intent();
+            setResult(RESULT_CANCELED, intentActivityQuestions);
+            finish();
+        }
+        if(resultCode==RESULT_OK && requestCode==1) {
+            Intent intentActivityQuestions = new Intent();
+            setResult(RESULT_OK, intentActivityQuestions);
+            finish();
+        }
     }
 }
