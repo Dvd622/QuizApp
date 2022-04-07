@@ -47,12 +47,12 @@ public class ActivityQuestions extends AppCompatActivity {
 
         questionTitleTextView.setText(quiz[0][0]);
         questionDetailTextView.setText(quiz[0][1]);
+        quizProgressBar.setProgress((questionNumber+1)*100/quiz.length);
         progressString = "1/" + quiz.length;
         progressTextView.setText(progressString);
         answer1Button.setText(quiz[questionNumber][2]);
         answer2Button.setText(quiz[questionNumber][3]);
         answer3Button.setText(quiz[questionNumber][4]);
-        quizProgressBar.setProgress(0);
         nextButton.setText(getString(R.string.submitString));
 
         answer1Button.setOnClickListener(view -> {
@@ -92,8 +92,8 @@ public class ActivityQuestions extends AppCompatActivity {
                     intentActivityQuestions.putExtra("score", finalScore);
                     startActivityForResult(intentActivityQuestions, 1);
                 } else { // else not end of quiz, update all text to next question
-                    quizProgressBar.setProgress(questionNumber*100/quiz.length);
-                    progressString = questionNumber.toString() + "/" + quiz.length;
+                    quizProgressBar.setProgress((questionNumber+1)*100/quiz.length);
+                    progressString = (questionNumber+1) + "/" + quiz.length;
                     progressTextView.setText(progressString);
                     questionTitleTextView.setText(quiz[questionNumber][0]);
                     questionDetailTextView.setText(quiz[questionNumber][1]);
